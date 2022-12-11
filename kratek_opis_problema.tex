@@ -32,16 +32,47 @@
  
 \section{Navodilo}
 
-Naj bo $P$ množica z $2n$ točkami na ravnini. Najkrajše ujemanje za $P$ je množica segmentov z minimalno skupno dolžino, za katere velja da je vsaka točka iz množice $P$ končna točka natanko enemu segmentu. \\
-Formuliraj problem kot CLP. Preko eksperimentov najdi pričakovano vrednost skupne dolžine najkrajšega ujemanja, ko so točke izbrane naključno v:
+Naj bo $P$ množica z $2n$ točkami na ravnini. Najkrajše ujemanje za $P$ je množica segmentov z minimalno skupno dolžino, za katere velja da je vsaka točka iz množice $P$ končna točka natanko enega segmenta. \\
+Formuliraj problem kot CLP. Preko eksperimentov poišči pričakovano vrednost celotne dolžine najkrajšega ujemanja, ko so točke izbrane naključno v:
 \begin{itemize}
     \item enotskem kvadratu,
     \item enotskem krogu,
     \item enakostraničnem trikotniku, \dots
 \end{itemize}
-Ugotovi ali se vrednost z večanjem $n$ povečuje ali zmanjšuje. \\
-Obravnavaj tudi problem, ko je množica $P$ sestavljena iz $n$ rdečih in $n$ modrih točk in moramo ustvariti segmente katerih končne točke so različnih barv. Primerjaj vrednost v primeru ko točke ločimo po barvah in v primeru ko jih ne.  
+Ugotovi, ali se vrednost z večanjem $n$ povečuje ali zmanjšuje. \\
+Obravnavaj tudi problem, ko je množica $P$ sestavljena iz $n$ rdečih in $n$ modrih točk in so končne točke segmentov različnih barv - bikromatsko najkrajše ujemanje. 
+Primerjaj vrednost v primeru, ko točke ločimo po barvah in v primeru, ko jih ne.  
+
+\section{Opis problema}
+
+Množici $P$ z $2n$ točkami lahko priredimo nepovezan graf $G(P),$ oziroma samo $G.$
+Množica vozlišč grafa $G$ je kar množica $P,$ množica povezav v grafu $E$ pa so neurejeni pari $(u,v),$
+za katere velja $u,~v \in P$ in $u \neq v.$ 
+Cena povezave je razdalja $d(u,v)$ med vozliščema $u$ in $v.$
+Ujemanje na grafu $G$ oziroma na množici $P$ je množica povezav $M,$ 
+za katero velja, da nobeno vozlišče v $P$ ne sovpada z več kot eno povezavo v $M.$
+Popolno ujemanje v $P$ je tako ujemanje $M,$ kjer vsako vozlišče sovpada z natanko eno povezavo v $M.$
+Velikost popolnega ujemanja je $n.$ 
+Ceno ujemanja definiramo kot $\sum_{(u,v) \in M} d(u,v),$ kar je vsota cen vseh povezav v $M.$
+
+Naša naloga pri problemu najkrajšega ujemanja v ravnini - \textit{shortest matching in the plane} - je poiskati
+popolno ujemanje množice $P$ z najnižjo ceno.
+
+Ta problem ima uporabno vrednost v operacijskih raziskavah, prepoznavanju vzorcev in statistiki.
+Uporabljajo ga pri določanju učinkovitega gibanja mehanskih risalnikov, kar je poseben primer problema kitajskega poštarja.
+Iskanje najkrajšega ujemanja in njemu podobni problemi so rešljivi v polinomskem času z najbolj osnovnim algoritmom, 
+seveda pa se pojavlja vprašanje, ali algoritme lahko še izboljšamo.
+
+Drugi del naloge se v strokovni literaturi pojavlja pod imenom Evklidski dvodelni problem ujemanja \emph{(ang. The Euclidean Bipartite Matching Problem, EBM)}.
+Množico $P$ sestavljata množica $n$ rdečih točk, $R,$ in množica $n$ modrih točk $B,$ $P=R \cup B.$
+V tem primeru je $G(P,E)$ dvodelen graf z lastnostjo, da med dvema točkama obstaja povezava, če in samo če sta različnih barv.
+Cene povezav $(u,v)$ so prav tako razdalje med vozlišči, $d(u,v).$
+
+\section{Pričakovani rezultati}
 
 \section{Načrt dela}
+V nadaljevanju bova najprej problem zapisali kot celoštevilski linearni program, nato pa bova še v programskem jeziku \textit{Python} zapisali algoritma in ju preizkusili za različne $n.$
+Pri tem naju bo zanimala pričakovana vrednost najkrajšega popolnega ujemanja, torej celotna cena oziroma dolžina povezav, ki so v množici $M,$ med točkami, ki se nahajajo v enotskih likih.
+Ugotovili bova tudi, ali se ta pričakovana vrednost zmanjšuje ali povečuje z večanjem števila $n,$ ter kakšna je v dvodelnem grafu.
 
 \end{document}
