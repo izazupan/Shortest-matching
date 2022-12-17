@@ -133,6 +133,7 @@ dmypy.json
 *.log
 *.toc
 *.fls
+*.lof
 
 # Latexmk
 *.fdb_latexmk

@@ -1,0 +1,137 @@
+\documentclass[a4paper, 11pt]{article}
+% ukazi za delo s slovenscino -- izberi kodiranje, ki ti ustreza
+\usepackage[slovene]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{url}
+\usepackage[normalem]{ulem}
+\usepackage[dvipsnames,usenames]{color}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{verbatim}
+
+% okolje za slike
+%\graphicspath{}
+
+
+% ukazi za matematicna okolja
+%\theoremstyle{definition} % tekst napisan pokoncno
+%\newtheorem{definicija}{Definicija}[section]
+%\newtheorem{primer}[definicija]{Primer}
+%\theoremstyle{remark}
+%\newtheorem*{remark}{Opomba}
+
+
+%\renewcommand\endprimer{\hfill$\diamondsuit$}
+
+
+%\theoremstyle{plain} % tekst napisan posevno
+%\newtheorem{lema}[definicija]{Lema}
+%\newtheorem{izrek}[definicija]{Izrek}
+%\newtheorem{trditev}[definicija]{Trditev}
+%\newtheorem{posledica}[definicija]{Posledica}
+
+
+% za stevilske mnozice uporabi naslednje simbole
+\newcommand{\R}{\mathbb R}
+\newcommand{\N}{\mathbb N}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\C}{\mathbb C}
+\newcommand{\Q}{\mathbb Q}
+
+% ukaz za slovarsko geslo
+\newlength{\odstavek}
+\setlength{\odstavek}{\parindent}
+\newcommand{\geslo}[2]{\noindent\textbf{#1}\hspace*{3mm}\hangindent=\parindent\hangafter=1 #2}
+
+% naslednje ukaze ustrezno popravi
+\newcommand{\program}{Finančna matematika 1.~stopnja} % ime studijskega programa: Matematika/Finan"cna matematika
+\newcommand{\imeavtorja}{Iza Čebulj, Barbara Pal} % ime avtorja
+\newcommand{\naslovdela}{Najcenejše prirejanje v ravnini}
+\newcommand{\letnica}{2022} 
+\newcommand{\predmet}{Finančni praktikum}
+
+% vstavi svoje definicije ...
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+
+\thispagestyle{empty}
+\begin{center}
+\begin{minipage}{0.75\linewidth}
+    \centering
+    {\Large Univerza v Ljubljani \\ \program}
+    \\
+    \vspace{3cm}
+
+    {\uppercase{\Large \textbf{\naslovdela}}} \\ \predmet\\
+    \vspace{3cm}
+
+    {\Large \imeavtorja\par}
+    \vspace{9cm}
+
+\end{minipage}
+\end{center}
+
+\noindent{\large
+Ljubljana, \letnica}
+\pagebreak
+
+\thispagestyle{empty}
+\tableofcontents
+\listoffigures
+\pagebreak
+
+\section{Navodilo}
+Naj bo $P$ množica z $2n$ točkami na ravnini. Najcenejše prirejanje za $P$ je množica daljic z minimalno skupno ceno, za katere velja da je vsaka točka iz množice $P$ končna točka natanko ene daljice, cena pa je enaka razdalji med končnima točkama daljice. \\
+Formuliraj problem kot CLP. Preko eksperimentov poišči pričakovano vrednost celotne cene najcenejšega prirejanja, ko so točke izbrane naključno v enotskem kvadratu, enotskem krogu in enakostraničnem trikotniku.
+Ugotovi, ali se vrednost z večanjem $n$ povečuje ali zmanjšuje. \\
+Obravnavaj tudi problem, ko je množica $P$ sestavljena iz $n$ rdečih in $n$ modrih točk in so končne točke daljic različnih barv - dvobarvno najcenejše prirejanje. 
+Primerjaj vrednost v primeru, ko točke ločimo po barvah in v primeru, ko jih ne.  
+
+\section{Reševanje osnovnega problema najcenejšega prirejanja}
+\subsection{Opis problema}
+Množici $P$ z $2n$ točkami lahko priredimo neusmerjen graf $G(P,E),$ oziroma samo $G.$
+Množica vozlišč grafa $G$ je kar množica $P,$ množica povezav v grafu $E$ pa so neurejeni pari vozlišč $(u,v),$ za katere velja $u,~v \in P$ in $u \neq v.$ 
+Cena povezave je razdalja $d(u,v)$ med vozliščema $u$ in $v.$ \\
+Popolno prirejanje na grafu $G$ oziroma v množici $P$ je taka množica povezav $M,$ za katero velja, da vsako vozlišče v $P$ sovpada z natanko eno povezavo v $M$.
+Velikost popolnega prirejanja v množici velikosti $2n$ je $n.$ 
+Ceno prirejanja definiramo kot $\sum_{(u,v) \in M} d(u,v),$ kar je vsota cen vseh povezav v $M.$ \\
+Radi bi poiskali \emph{najcenejše popolno prirejanje} in njegovo ceno za različne $n.$
+
+\subsection{Zapis problema kot celoštevilski linearni program}
+
+\subsection{Programiranje rešitev in eksperimentiranje}
+
+\subsection{Analiza rezultatov}
+\subsubsection*{Izbira točk v enotskem kvadratu}
+
+\subsubsection*{Izbira točk v enotskem krogu}
+
+\subsubsection*{Izbira točk v enakostraničnem trikotniku}
+
+\subsubsection*{Časovna odvisnost algoritma}
+
+
+\section{Dvobarvno najcenejše prirejanje}
+\subsection{Opis problema}
+Množico $P$ sestavljata množica $n$ rdečih točk, $R,$ in množica $n$ modrih točk $B,$ $P=R \cup B.$
+V tem primeru je $G(P,E)$ dvodelen graf z lastnostjo, da med dvema točkama obstaja povezava, če in samo če sta različnih barv.
+Cene povezav $(u,v)$ so tako kot v osnovnem primeru razdalje med vozlišči, $d(u,v).$
+Spet iščemo najcenejše popolno prirejanje in njegovo ceno.
+
+\subsection{Programiranje rešitev in eksperimentiranje}
+
+\subsection{Analiza rezultatov}
+
+
+\section{Zaključek}
+% primerjava rezultatov obeh algoritmov
+
+% \section{Literatura/Viri} ?
+
+\end{document}
