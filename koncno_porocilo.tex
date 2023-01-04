@@ -13,7 +13,7 @@
 \usepackage{verbatim}
 
 % okolje za slike
-%\graphicspath{}
+\graphicspath{ {shortest-matching/} }
 
 
 % ukazi za matematicna okolja
@@ -83,15 +83,8 @@ Ljubljana, \letnica}
 
 \thispagestyle{empty}
 \tableofcontents
-\listoffigures
+% \listoffigures
 \pagebreak
-
-\section{Navodilo}
-Naj bo $P$ množica z $2n$ točkami na ravnini. Najcenejše prirejanje za $P$ je množica daljic z minimalno skupno ceno, za katere velja da je vsaka točka iz množice $P$ končna točka natanko ene daljice, cena pa je enaka razdalji med končnima točkama daljice. \\
-Formuliraj problem kot CLP. Preko eksperimentov poišči pričakovano vrednost celotne cene najcenejšega prirejanja, ko so točke izbrane naključno v enotskem kvadratu, enotskem krogu in enakostraničnem trikotniku.
-Ugotovi, ali se vrednost z večanjem $n$ povečuje ali zmanjšuje. \\
-Obravnavaj tudi problem, ko je množica $P$ sestavljena iz $n$ rdečih in $n$ modrih točk in so končne točke daljic različnih barv - dvobarvno najcenejše prirejanje. 
-Primerjaj vrednost v primeru, ko točke ločimo po barvah in v primeru, ko jih ne.  
 
 \section{Reševanje osnovnega problema najcenejšega prirejanja}
 \subsection{Opis problema}
@@ -106,13 +99,83 @@ Radi bi poiskali \emph{najcenejše popolno prirejanje} in njegovo ceno za razli�
 \subsection{Zapis problema kot celoštevilski linearni program}
 
 \subsection{Programiranje rešitev in eksperimentiranje}
+Pri svojem delu sva uporabljali spletno platformo \emph{CoCalc,} ki omogoča urejanje \emph{Jupyter} dokumentov.
+Algoritem za iskanje najcenejšega prirejanja sva napisali v sistemu \emph{SageMath,} ki uporablja podobno sintakso kot \emph{Python.}
+Najprej sva definirali funkcijo, ki nama je generirala $2n$ točk v enotskem kvadratu.
+
+\begin{verbatim}
+    def generiranje_tock_kvadrat(n):
+    V = RDF^2 # vektorski prostor R^2 (ravnina)
+    tocke = [V.random_element(min=0, max=1) for _ in range(2*n)]
+    return tocke 
+\end{verbatim}
+
+Podobno sva definirali še funkciji, ki generirata točke v enotskem krogu in v enakostraničnem trikotniku.
+
+Za tem pa sva želeli, da generirane točke predstavljajo vozlišča grafa, sam graf pa bo poln, torej so vse točke povezane med sabo
+in tako lahko algoritem pri iskanju najkrajše razdalje oziroma najnižje cene upošteva vse možne razdalje oziroma cene.
+V definicijo za generiranje grafa, kjer cene na povezavah predstavljajo razdaljo med točkami, sva torej vključili ukaze za $n,$ \emph{generiranje tock} in \emph{normo,}
+s katerimi lahko izberemo število $2n$ točk, lik, iz katerega jih poberemo, ter normo, po kateri izračunamo razdaljo. 
+Privzeta vrednost norme je $2,$ torej je to evklidska norma oziroma običajna razdalja med dvema točkama, seveda pa funkcija \texttt{graf} upošteva tudi normi $1$ in \emph{Infinity.}
+
+\begin{verbatim}
+    def graf(n, generiranje_tock, norma=2):
+        tocke = generiranje_tock(n)
+        G = graphs.CompleteGraph(len(tocke))
+        for u, v in G.edges(labels=False):
+            G.set_edge_label(u, v, (tocke[u] - tocke[v]).norm(norma))
+        return G
+\end{verbatim}
+
+Definirali sva tudi funkcijo, ki graf izriše s približki cen povezav.
+Tako izgleda generiran in izrisan graf na $6$ točkah, naključno izbranih v enotskem kvadratu, cene na povezavah pa so evklidske razdalje med vozlišči.
+\begin{figure}[h!]
+    \includegraphics[scale=0.5]{graf1}
+    \centering
+\end{figure}
+
+Končno pa sva s pomočjo \emph{SageMath-a} in profesorja \emph{doc. dr. Janoša Vidalija} napisali še algoritem, ki s celoštevilskim linearnim programom
+reši problem najcenejšega prirejanja, izpiše pare vozlišč, med katerimi so povezave v najcenejšem prirejanju $M,$ vsoto cen povezav v $M$ in nariše graf 
+z označenimi povezavami, ki so v najcenejšem prirejanju.
+
+\begin{verbatim}
+def clp(G):
+    p = MixedIntegerLinearProgram(maximization=False)
+    b = p.new_variable(binary=True)
+    p.set_objective(sum([w * b[Set(e)] for *e, w in G.edges(labels=True)]))
+
+    for v in G:
+        p.add_constraint(sum([b[Set(e)] 
+                        for e in G.edges_incident(v, labels=False)]) == 1)
+
+    cena = p.solve()
+    b = p.get_values(b)
+
+    M = [tuple(e) for e, i in b.items() if i]
+    print(M) # pari vozlišč, med katerimi so povezave v najcenejšem prirejanju
+
+    x = [w for *e, w in G.edges() if tuple(e) in M] # seznam cen povezav v M
+    print(sum(x)) # vsota cen povezav v M
+
+    H = Graph([(*e, N(w, digits=2)) for *e, w in G.edges(labels=True)])
+    H.set_pos(G.get_pos())
+
+    return H.plot(edge_colors={"red": M}, edge_labels=True) 
+    # graf H z rdeče pobarvanimi povezavami iz prirejanja
+\end{verbatim}
+
+Ko na dobljenem grafu želimo najti povezave v najcenejšem prirejanju pa z uporabo funkcije \texttt{clp} dobimo
+seznam parov vozlišč, med katerimi so povezave v najcenejšem prirejanju: \texttt{$[(0, 5), (1, 2), (3, 4)]$} in skupno vsoto cen teh povezav $0.6531541582221374$ (Slika \ref{fig:graf1clp}).
+
+\begin{figure}[h!]
+    \includegraphics[scale=0.7]{graf1clp}
+    \centering
+    \caption{Graf z označenimi povezavami, ki so v najcenejšem prirejanju}
+    \label{fig:graf1clp}
+\end{figure}
 
 \subsection{Analiza rezultatov}
-\subsubsection*{Izbira točk v enotskem kvadratu}
-
-\subsubsection*{Izbira točk v enotskem krogu}
-
-\subsubsection*{Izbira točk v enakostraničnem trikotniku}
+Celoštevilski linearnih program sva večkrat pognali na različnih grafih, dobljene skupne vsote cen v najnižjem prirejanju pa sva izpisovali v \texttt{.csv} datoteko za lažji uvoz in obdelavo v programskem jeziku \emph{R.}
 
 \subsubsection*{Časovna odvisnost algoritma}
 
@@ -125,6 +188,18 @@ Cene povezav $(u,v)$ so tako kot v osnovnem primeru razdalje med vozlišči, $d(
 Spet iščemo najcenejše popolno prirejanje in njegovo ceno.
 
 \subsection{Programiranje rešitev in eksperimentiranje}
+Za programiranje rešitev sva ponovno uporabili \emph{SageMath.} Napisali sva funkcijo \texttt{dvobarven\underline{\space}graf,} ki je precej podobna prvotni funkciji,
+prav tako pa sprejme ukaze za število točk, način generiranja točk oziroma lik in vrsto norme.
+
+\begin{verbatim}
+def dvobarven_graf(n, generiranje_tock, norma):
+    G = graphs.CompleteBipartiteGraph(n, n)
+    tocke = generiranje_tock(n)
+
+    for u, v in G.edges(labels=False):
+        G.set_edge_label(u, v, (tocke[u] - tocke[v]).norm(norma))
+    return G
+\end{verbatim}
 
 \subsection{Analiza rezultatov}
 
