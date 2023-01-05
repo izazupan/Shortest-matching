@@ -13,7 +13,7 @@
 \usepackage{verbatim}
 
 % okolje za slike
-\graphicspath{ {shortest-matching/} }
+\graphicspath{ {./slike/} }
 
 
 % ukazi za matematicna okolja
@@ -83,7 +83,7 @@ Ljubljana, \letnica}
 
 \thispagestyle{empty}
 \tableofcontents
-% \listoffigures
+\listoffigures
 \pagebreak
 
 \section{Reševanje osnovnega problema najcenejšega prirejanja}
@@ -134,7 +134,7 @@ Tako izgleda generiran in izrisan graf na $6$ točkah, naključno izbranih v eno
     \centering
 \end{figure}
 
-Končno pa sva s pomočjo \emph{SageMath-a} in profesorja \emph{doc. dr. Janoša Vidalija} napisali še algoritem, ki s celoštevilskim linearnim programom
+Končno pa sva s pomočjo \emph{SageMath-a} napisali še algoritem, ki s celoštevilskim linearnim programom
 reši problem najcenejšega prirejanja, izpiše pare vozlišč, med katerimi so povezave v najcenejšem prirejanju $M,$ vsoto cen povezav v $M$ in nariše graf 
 z označenimi povezavami, ki so v najcenejšem prirejanju.
 
@@ -200,6 +200,15 @@ def dvobarven_graf(n, generiranje_tock, norma):
         G.set_edge_label(u, v, (tocke[u] - tocke[v]).norm(norma))
     return G
 \end{verbatim}
+
+Za iskanje najcenejšega prirejanja pa sva uporabili enak celoštevilski linearni program.
+
+\begin{figure}[h!]
+    \includegraphics[scale=0.7]{dvobarvenclp}
+    \centering
+    \caption{Rešen problem najcenejšega prirejanja na dvobarvnem grafu, ko točke izberemo naključno v enakostraničnem trikotniku in za računanje razdalje med njimi uporabimo neskončno normo.}
+    \label{fig:dvobarvenclp}
+\end{figure}
 
 \subsection{Analiza rezultatov}
 
