@@ -156,3 +156,5 @@ dmypy.json
 *.sublime-workspace
 
 *.code-workspace
+*.Rhistory
+*.Rdata
