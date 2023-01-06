@@ -84,7 +84,7 @@ def dvobarven_graf(n, generiranje_tock, norma=2):
 def graf_izris(G):
     # funkcija nariše graf G
 
-    H = Graph([(*e, N(w, digits=2)) for *e, w in G.edges(labels=True, sort = False)])
+    H = Graph([(u, v, N(w, digits=2)) for u, v, w in G.edges(labels=True, sort = False)])
     H.set_pos(G.get_pos())
 
     return H.plot(edge_labels=True)
@@ -98,7 +98,7 @@ def clp(G):
 
     p = MixedIntegerLinearProgram(maximization=False)
     b = p.new_variable(binary=True)
-    p.set_objective(sum([w * b[Set(e)] for *e, w in G.edges(labels=True, sort = False)])) # upoštevamo uteži povezav
+    p.set_objective(sum([w * b[Set([u, v])] for u, v, w in G.edges(labels=True, sort = False)])) # upoštevamo uteži povezav
 
     for v in G: # tukaj nas uteži ne zanimajo
         p.add_constraint(sum([b[Set(e)] for e in G.edges_incident(v, labels=False)]) == 1)
@@ -110,11 +110,11 @@ def clp(G):
     print(M)
 
     # vrne cene povezav v M
-    x = [w for *e, w in G.edges(sort = False) if tuple(e) in M] # seznam cen povezav v M
+    x = [w for u, v, w in G.edges(sort = False) if (u, v) in M] # seznam cen povezav v M
     print(sum(x))
 
     # izrisovanje
-    H = Graph([(*e, N(w, digits=2)) for *e, w in G.edges(labels=True, sort = False)])
+    H = Graph([(u, v, N(w, digits=2)) for u, v, w in G.edges(labels=True, sort = False)])
     H.set_pos(G.get_pos())
 
     return H.plot(edge_colors={"red": M}, edge_labels=True) # graf H z rdeče pobarvanimi povezavami iz prirejanja
@@ -127,7 +127,7 @@ def clp_vsota_in_cas(G):
     # funkcija reši clp in vrne minimalno vsoto ter čas ki ga porabi za reševanje clp
     p = MixedIntegerLinearProgram(maximization=False)
     b = p.new_variable(binary=True)
-    p.set_objective(sum([w * b[Set(e)] for *e, w in G.edges(labels=True, sort = False)])) # upoštevamo uteži povezav
+    p.set_objective(sum([w * b[Set([u, v])] for u, v, w in G.edges(labels=True, sort = False)])) # upoštevamo uteži povezav
 
     start = time.time()
     for v in G: # tukaj nas uteži ne zanimajo
@@ -141,7 +141,7 @@ def clp_vsota_in_cas(G):
     M = [tuple(e) for e, i in b.items() if i]
 
     # vrne cene povezav v M
-    x = [w for *e, w in G.edges(sort = False) if tuple(e) in M] # seznam cen povezav v M
+    x = [w for u, v, w in G.edges(sort = False) if tuple(e) in M] # seznam cen povezav v M
 
     return sum(x), end-start
 
