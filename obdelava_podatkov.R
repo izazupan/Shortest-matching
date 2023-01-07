@@ -13,6 +13,9 @@ n_od_1_do_40_vsota_dvodelni_graf <- uvoz("podatki/n_od_1_do_40_vsota_dvodelni_gr
 n_od_1_do_40_cas <- uvoz("podatki/n_od_1_do_40_cas.csv")
 n_od_1_do_40_cas_dvodelni_graf <- uvoz("podatki/n_od_1_do_40_cas_dvodelni_graf.csv")
 
+# n = 3,4,5
+n_od_3_do_5_vsota <- uvoz("podatki/n_od_3_do_5_vsota.csv")
+
 # primerjava po normah
 # n = 1,2,...,10
 n_od_1_do_10_primerjava_norme_1 <- uvoz("podatki/n_od_1_do_10_primerjava_norme_1.csv")
@@ -39,6 +42,29 @@ plot(pricakovana$n, pricakovana$pricakovana_vred,
      xlab="n", ylab="",
      main="Pričakovana vrednost najcenejšega prirejanja")
 abline(lm(pricakovana_vred~n,data=pricakovana),col='red')
+
+# pričakovana vrednost najcenejšega prirejanja, 200 ponovitev
+n3 <- as.numeric(as.vector(n_od_3_do_5_vsota[1,]))
+n4 <- as.numeric(as.vector(n_od_3_do_5_vsota[2,]))
+n5 <- as.numeric(as.vector(n_od_3_do_5_vsota[3,]))
+
+hist(n3, main="Histogram vrednosti najcenejšega prirejanja, \nn=3, 200 ponovitev",
+     xlab="Skupna cena povezav v najcenejšem prirejanju", ylab="Pogostost")
+abline(v = mean(n3), col = "red", lwd = 3)
+text(x = 1.25, y = 140,
+     paste("Pričakovana vrednost = \n=", mean(n3)), col = "red", cex = 0.6)
+
+hist(n4, main="Histogram vrednosti najcenejšega prirejanja, \nn=4, 200 ponovitev",
+     xlab="Skupna cena povezav v najcenejšem prirejanju", ylab="Pogostost")
+abline(v = mean(n4), col = "blue", lwd = 3)
+text(x = 1.4, y = 65,
+     paste("Pričakovana vrednost = \n=", mean(n4)), col = "blue", cex = 0.6)
+
+hist(n5, main="Histogram vrednosti najcenejšega prirejanja, \nn=5, 200 ponovitev",
+     xlab="Skupna cena povezav v najcenejšem prirejanju", ylab="Pogostost")
+abline(v = mean(n5), col = "darkgreen", lwd = 3)
+text(x = 0.25, y = 110,
+     paste("Pričakovana vrednost = \n=", mean(n5)), col = "darkgreen", cex = 0.6)
 
 # primerjava za različne n, dvodelni graf
 pric_vred2 <- rowMeans(n_od_1_do_40_vsota_dvodelni_graf)
@@ -71,10 +97,16 @@ y <- cas_odv$casovna_odv
 plot(x, y, xlab="n", ylab="t",
      main="Časovna odvisnost najcenejšega prirejanja")
 
-fit <- lm(y ~ x + I(x^2) + I(x^3))
-pred <- predict(fit)
-ix <- sort(x, index.return=T)$ix
-lines(x[ix], pred[ix], col='green', lwd=2)
+# fit <- lm(y ~ x + I(x^2) + I(x^3)) # polinomska regresija
+# pred <- predict(fit)
+# ix <- sort(x, index.return=T)$ix
+# lines(x[ix], pred[ix], col='darkgreen', lwd=2)
+
+fit2 <- lm(log(y) ~ x) # eksponentna regresija
+a <- as.numeric(coef(fit2)[1])
+b <- as.numeric(coef(fit2)[2])
+c <- exp(a+b*x)
+lines(x, c, col='darkred', lwd=2)
 
 # primerjava časovne odvisnosti med polnim in dvodelnim grafom
 cas2 <- rowMeans(n_od_1_do_40_cas_dvodelni_graf)
