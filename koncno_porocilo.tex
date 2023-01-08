@@ -168,7 +168,7 @@ Najprej naju je zanimalo, kaj se dogaja s pričakovano vrednostjo najcenejšega 
 Na grafu \ref{fig:pv1-40} lahko vidimo, da se z $n$ povečujejo tudi pričakovane vrednosti najcenejših prirejanj.
 Zanimivo sa nama je zdelo predvsem, da po začetnem linearnem naraščanju pri $n=1,2,3$ in $4,$ pričakovana vrednost pade, preden začne spet naraščati.
 Pade spet pri $n=10$ in še nekajkrat za večje $n.$
-Odstopanja od linearnosti sva pripisali malemu številu ponovitev (zaradi počasnosti algoritma sva CLP pognali 10-krat), sva pa se odločili za nizke $n=3,4,5$ algoritem ponoviti dvestokrat.
+Odstopanja od linearnosti sva pripisali malemu številu ponovitev (zaradi počasnosti algoritma sva CLP pognali 10-krat), sva pa se odločili za nizke $n=3,4,5$ algoritem ponoviti petstokrat.
 
 \begin{figure}[!htb]
     \minipage{0.5\textwidth}
@@ -186,7 +186,7 @@ Odstopanja od linearnosti sva pripisali malemu številu ponovitev (zaradi počas
     \centering
 \end{figure}
 
-Kot je razvidno iz histogramov, se z $n=3$ na $n=4$ pričakovana vrednost skladno z linearnostjo poveča, pri $n=5$ pa tudi pri $200$ ponovitvah zmanjša.
+Kot je razvidno iz histogramov, se z $n=3$ na $n=4$ pričakovana vrednost skladno z linearnostjo poveča, pri $n=5$ pa tudi pri $500$ ponovitvah zmanjša.
 
 \subsubsection*{Izbira točk in norme}
 Pri generiranju grafov sva lahko izbirali med grafi, ki izberejo točke enakomerno v enotskem kvadratu, enotskem krogu in enakostraničnem trikotniku.
@@ -238,7 +238,7 @@ Za iskanje najcenejšega prirejanja sva uporabili enak celoštevilski linearni p
 \end{figure}
 
 \subsection{Analiza rezultatov}
-Kot je razvidno s spodnje slike, tudi v dvodelnem grafu pričakovana vrednost najcenejšega prirejanja narašča, vendar pa ne narašča enako hitro kot v polnem grafu.
+Kot je razvidno s spodnje slike, v dvodelnem grafu pričakovana vrednost najcenejšega prirejanja narašča še hitreje kot v polnem grafu.
 Že pri $n=12$ je razlika v skupni ceni, ko točke izberemo na enotskem kvadratu, večja od ene enote.
 \begin{figure}[!htb]
     \includegraphics[scale=0.5]{primerjava_cene_polni_dvodelni}

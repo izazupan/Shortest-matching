@@ -14,7 +14,7 @@ n_od_1_do_40_cas <- uvoz("podatki/n_od_1_do_40_cas.csv")
 n_od_1_do_40_cas_dvodelni_graf <- uvoz("podatki/n_od_1_do_40_cas_dvodelni_graf.csv")
 
 # n = 3,4,5
-n_od_3_do_5_vsota <- uvoz("podatki/n_od_3_do_5_vsota.csv")
+n_od_3_do_5_vsota <- uvoz("faks/3. letnik/FP/Shortest-matching/podatki/n_od_3_do_5_vsota.csv")
 
 # primerjava po normah
 # n = 1,2,...,10
@@ -43,24 +43,24 @@ plot(pricakovana$n, pricakovana$pricakovana_vred,
      main="Pričakovana vrednost najcenejšega prirejanja")
 abline(lm(pricakovana_vred~n,data=pricakovana),col='red')
 
-# pričakovana vrednost najcenejšega prirejanja, 200 ponovitev
+# pričakovana vrednost najcenejšega prirejanja, 500 ponovitev
 n3 <- as.numeric(as.vector(n_od_3_do_5_vsota[1,]))
 n4 <- as.numeric(as.vector(n_od_3_do_5_vsota[2,]))
 n5 <- as.numeric(as.vector(n_od_3_do_5_vsota[3,]))
 
-hist(n3, main="Histogram vrednosti najcenejšega prirejanja, \nn=3, 200 ponovitev",
+hist(n3, main="Histogram vrednosti najcenejšega prirejanja, \nn=3, 500 ponovitev",
      xlab="Skupna cena povezav v najcenejšem prirejanju", ylab="Pogostost")
 abline(v = mean(n3), col = "red", lwd = 3)
 text(x = 1.25, y = 140,
      paste("Pričakovana vrednost = \n=", mean(n3)), col = "red", cex = 0.6)
 
-hist(n4, main="Histogram vrednosti najcenejšega prirejanja, \nn=4, 200 ponovitev",
+hist(n4, main="Histogram vrednosti najcenejšega prirejanja, \nn=4, 500 ponovitev",
      xlab="Skupna cena povezav v najcenejšem prirejanju", ylab="Pogostost")
 abline(v = mean(n4), col = "blue", lwd = 3)
 text(x = 1.4, y = 65,
      paste("Pričakovana vrednost = \n=", mean(n4)), col = "blue", cex = 0.6)
 
-hist(n5, main="Histogram vrednosti najcenejšega prirejanja, \nn=5, 200 ponovitev",
+hist(n5, main="Histogram vrednosti najcenejšega prirejanja, \nn=5, 500 ponovitev",
      xlab="Skupna cena povezav v najcenejšem prirejanju", ylab="Pogostost")
 abline(v = mean(n5), col = "darkgreen", lwd = 3)
 text(x = 0.25, y = 110,
